@@ -21,7 +21,7 @@ SCOPES = ['https://www.googleapis.com/auth/admin.directory.user.readonly',\
          'https://www.googleapis.com/auth/admin.directory.orgunit.readonly']
 def get_credentials():
     credentials = ServiceAccountCredentials.from_json_keyfile_name('/Applications/zz_GoogleJAMFsync.app/jamf.json',scopes=SCOPES)
-    delegated_credentials = credentials.create_delegated('wireland@doctorondemand.com')
+    delegated_credentials = credentials.create_delegated('[username]@[domain].com')
     return delegated_credentials
 
 def main():
@@ -29,7 +29,7 @@ def main():
     creds = credentials.authorize(Http())
     service = discovery.build('admin', 'directory_v1', http=creds)
     email = sys.argv[1]
-    results = service.users().list(domain="doctorondemand.com",projection="full",query='email={0}'.format(email)).execute()
+    results = service.users().list(domain="[domain].com",projection="full",query='email={0}'.format(email)).execute()
     print(results["users"])
 
 if __name__ == '__main__':
